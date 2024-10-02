@@ -1,5 +1,6 @@
 import Nav, { NavLink } from "@/components/nav/Nav";
 
+//  admin page layout with navigation links
 export default function AdminLayout({ children, }: Readonly<{ children: React.ReactNode; }>) {
     return (
         <>
