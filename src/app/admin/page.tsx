@@ -9,17 +9,28 @@ const AdminDashboard = () => {
     // lg:grid-cols-3: On large screens (lg means screen width ≥ 1024px), the grid container will have 3 columns. When the screen reaches the larger breakpoint, the layout adjusts to 3 columns.
     return (
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
-            <Card>
-                <CardHeader>
-                    <CardTitle>Sales</CardTitle>
-                    <CardDescription>desc</CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <p>text</p>
-                </CardContent>
-            </Card>
+            <DashboardCard title={'Sales'} subTitle={'test'} body={'body'} />
         </div>
     )
 }
 
 export default AdminDashboard
+
+interface DashboardCardProps {
+    title: string
+    subTitle: string
+    body: string
+}
+export function DashboardCard({ title, subTitle, body }: DashboardCardProps) {
+    return (
+        <Card>
+            <CardHeader>
+                <CardTitle>{title}</CardTitle>
+                <CardDescription>{subTitle}</CardDescription>
+            </CardHeader>
+            <CardContent>
+                <p>{body}</p>
+            </CardContent>
+        </Card>
+    );
+}
