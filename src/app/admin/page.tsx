@@ -29,14 +29,28 @@ async function getUsersData() {
         averageValuePerUser: userCount === 0 ? 0 : (orderData._sum.pricePaidInCents || 0) / userCount / 100,
     }
 }
+
+async function getProductsData() {
+    const [activeCount, inactiveCount] = await Promise.all([
+        db.product.count({ where: { isAvailableForPurchase: true } }),
+        db.product.count({ where: { isAvailableForPurchase: false } }),
+    ])
+    return {
+        activeCount: activeCount,
+        inactiveCount: inactiveCount
+    }
+}
+
 const AdminDashboard = async () => {
     // const datatest =  process.env.HOST_URL;
     // console.log(datatest)
     // const data = await getSalesData();
     // const usersData = await getUsersData();
-    const [data, usersData] = await Promise.all([
+    // run in parallel
+    const [data, usersData, productsData] = await Promise.all([
         getSalesData(),
-        getUsersData()
+        getUsersData(),
+        getProductsData()
     ])
     //  grid: Enable CSS Grid Layout. Using the grid class turns an element into a grid container.
     // grid-cols-1: On small screens, the grid container will have 1 column. This is the default behavior and is suitable for mobile phones or small screen devices.
@@ -51,9 +65,14 @@ const AdminDashboard = async () => {
                 body={formatCurrency(data.amount)}
             />
             <DashboardCard
-                title={'Customer'}
+                title={'Customers'}
                 subTitle={`${formatNumber(usersData.averageValuePerUser)} Average Value`}
                 body={formatCurrency(usersData.userCount)}
+            />
+            <DashboardCard
+                title={'Active Products'}
+                subTitle={`${formatNumber(productsData.inactiveCount)} Inactive`}
+                body={formatCurrency(productsData.activeCount)}
             />
         </div>
     )
