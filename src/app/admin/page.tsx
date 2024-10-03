@@ -32,8 +32,12 @@ async function getUsersData() {
 const AdminDashboard = async () => {
     // const datatest =  process.env.HOST_URL;
     // console.log(datatest)
-    const data = await getSalesData();
-    const usersData = await getUsersData();
+    // const data = await getSalesData();
+    // const usersData = await getUsersData();
+    const [data, usersData] = await Promise.all([
+        getSalesData(),
+        getUsersData()
+    ])
     //  grid: Enable CSS Grid Layout. Using the grid class turns an element into a grid container.
     // grid-cols-1: On small screens, the grid container will have 1 column. This is the default behavior and is suitable for mobile phones or small screen devices.
 
