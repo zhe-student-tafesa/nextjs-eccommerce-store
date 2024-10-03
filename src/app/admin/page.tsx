@@ -12,11 +12,20 @@ async function getSalesData() {
     });
 
     return {
-        amount: (data._sum.pricePaidInCents) / 100,
+        amount: (data._sum.pricePaidInCents || 0) / 100,
         numberOfSales: data._count
     }
 }
 
+async function getusersData() {
+    const userCount = await db.user.count();
+    const orderData = await db.order.aggregate({
+        _sum: { pricePaidInCents: true },
+    });
+    return {
+        amountPerUser: userCount === 0 ? 0 : (orderData as unknown as number) / userCount,
+    }
+}
 const AdminDashboard = async () => {
     // const datatest =  process.env.HOST_URL;
     // console.log(datatest)
@@ -30,7 +39,7 @@ const AdminDashboard = async () => {
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
             <DashboardCard
                 title={'Sales'}
-                subTitle={formatNumber(data.numberOfSales)}
+                subTitle={`${formatNumber(data.numberOfSales)} Orders`}
                 body={formatCurrency(data.amount)}
             />
         </div>
