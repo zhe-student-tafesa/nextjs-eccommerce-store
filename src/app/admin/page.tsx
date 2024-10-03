@@ -23,11 +23,15 @@ async function getUsersData() {
         db.order.aggregate({
             _sum: { pricePaidInCents: true },
         })])
-
+    await wait(2000)
     return {
         userCount: userCount,
         averageValuePerUser: userCount === 0 ? 0 : (orderData._sum.pricePaidInCents || 0) / userCount / 100,
     }
+}
+
+function wait(duration: number) {
+    return new Promise(resolve => setTimeout(resolve, duration))
 }
 
 async function getProductsData() {
