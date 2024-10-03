@@ -18,18 +18,22 @@ async function getSalesData() {
 }
 
 async function getUsersData() {
-    const userCount = await db.user.count();
-    const orderData = await db.order.aggregate({
-        _sum: { pricePaidInCents: true },
-    });
+    const [userCount, orderData] = await Promise.all([
+        db.user.count(),
+        db.order.aggregate({
+            _sum: { pricePaidInCents: true },
+        })])
+
     return {
-        amountPerUser: userCount === 0 ? 0 : (orderData as unknown as number) / userCount,
+        userCount: userCount,
+        averageValuePerUser: userCount === 0 ? 0 : (orderData._sum.pricePaidInCents || 0) / userCount / 100,
     }
 }
 const AdminDashboard = async () => {
     // const datatest =  process.env.HOST_URL;
     // console.log(datatest)
     const data = await getSalesData();
+    const usersData = await getUsersData();
     //  grid: Enable CSS Grid Layout. Using the grid class turns an element into a grid container.
     // grid-cols-1: On small screens, the grid container will have 1 column. This is the default behavior and is suitable for mobile phones or small screen devices.
 
@@ -41,6 +45,11 @@ const AdminDashboard = async () => {
                 title={'Sales'}
                 subTitle={`${formatNumber(data.numberOfSales)} Orders`}
                 body={formatCurrency(data.amount)}
+            />
+            <DashboardCard
+                title={'Customer'}
+                subTitle={`${formatNumber(usersData.averageValuePerUser)} Average Value`}
+                body={formatCurrency(usersData.userCount)}
             />
         </div>
     )
