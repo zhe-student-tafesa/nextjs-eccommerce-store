@@ -17,7 +17,7 @@ async function getSalesData() {
     }
 }
 
-async function getusersData() {
+async function getUsersData() {
     const userCount = await db.user.count();
     const orderData = await db.order.aggregate({
         _sum: { pricePaidInCents: true },
