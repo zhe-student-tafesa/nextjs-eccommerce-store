@@ -40,3 +40,5 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 https://ui.shadcn.com/docs/components/card
 npx shadcn@latest add card
 npx shadcn@latest add button
+npx shadcn@latest add table 
+npx shadcn@latest add label 
