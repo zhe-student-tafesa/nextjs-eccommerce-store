@@ -10,7 +10,7 @@ const AdminProductsPage = () => {
     return (<>
         <div className="flex justify-between items-center gap-4">
             <AdminPageHeader>
-                AdminPageHeader
+                Products
             </AdminPageHeader>
             <Button asChild>
                 <Link href="/admin/products/new"  >
