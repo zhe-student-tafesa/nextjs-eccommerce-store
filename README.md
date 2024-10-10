@@ -44,3 +44,4 @@ npx shadcn@latest add table
 npx shadcn@latest add label 
 npx shadcn@latest add input
 npx shadcn@latest add textarea
+npm i zod: form validation

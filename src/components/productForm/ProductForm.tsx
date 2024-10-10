@@ -4,12 +4,14 @@ import { Label } from '../ui/label'
 import { Input } from '../ui/input'
 import { formatCurrency } from '@/lib/formatters'
 import { Textarea } from '../ui/textarea'
+import { Button } from '../ui/button'
+import { addProduct } from '@/lib/actions/action_admin'
 
 const ProductForm = () => {
     const [priceInCents, setPriceInCents] = useState<number>()
 
     return (
-        <form className='space-y-8'>
+        <form action={addProduct} className='space-y-8'>
             <div className='space-y-2'>
                 <Label htmlFor='name'>Name</Label>
                 <Input type='text' id='name' name='name' required>
@@ -48,6 +50,8 @@ const ProductForm = () => {
                 <Input type='file' id='image' name='image' required>
                 </Input>
             </div>
+
+            <Button type='submit'>Save</Button>
         </form>
     )
 }
