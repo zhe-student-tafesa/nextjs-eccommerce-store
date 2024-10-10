@@ -2,7 +2,7 @@ import ActiveToggleDropdownItem from "@/components/activeToggleDropdownItem/Acti
 import AdminPageHeader from "@/components/adminPageHeader/AdminPageHeader"
 import DeleteDropdownItem from "@/components/deleteDropdownItem/deleteDropdownItem"
 import { Button } from "@/components/ui/button"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import db from "@/db/db"
 import { formatCurrency, formatNumber } from "@/lib/formatters"
@@ -73,7 +73,8 @@ async function ProductsTable() {
                                 </>
                                 : <>
                                     <span className="sr-only">Unavailable</span>
-                                    <XCircle></XCircle>
+                                    {/* add red color when not Available */}
+                                    <XCircle className="stroke-destructive"></XCircle>
                                 </>
                             }
                         </TableCell>
@@ -92,12 +93,15 @@ async function ProductsTable() {
                                             Download
                                         </a>
                                     </DropdownMenuItem>
+                                    <DropdownMenuSeparator />
                                     <DropdownMenuItem asChild>
                                         <Link href={`/admin/products/${product.id}/edit`} >
                                             Edit
                                         </Link>
                                     </DropdownMenuItem>
+                                    <DropdownMenuSeparator />
                                     <ActiveToggleDropdownItem id={product.id} isAvailableForPurchase={product.isAvailableForPurchase} />
+                                    <DropdownMenuSeparator />
                                     {/*  if we have order in this product, we should not delete this product */}
                                     <DeleteDropdownItem id={product.id} disabled={product._count.orders > 0} />
                                 </DropdownMenuContent>

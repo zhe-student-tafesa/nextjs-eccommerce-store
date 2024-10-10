@@ -69,7 +69,7 @@ export async function deleteProduct(id: string) {
         where: { id: id }
     })
 
-    if(product === null){
+    if (product === null) {
         return notFound()
     }
 }
