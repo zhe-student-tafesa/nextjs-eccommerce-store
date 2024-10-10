@@ -4,7 +4,7 @@ import db from "@/db/db"
 import { describe } from "node:test"
 import { z } from "zod"
 import fs from "fs/promises"
-import { redirect } from "next/navigation"
+import { notFound, redirect } from "next/navigation"
 
 const fileSchema = z.instanceof(File, {
     message: 'Required'
@@ -22,7 +22,7 @@ const addSchema = z.object({
     file: fileSchema.refine(file => file.size > 0, 'Required'),
     image: imageSchema.refine(file => file.size > 0, 'Required')
 })
-export async function addProduct(previousState:unknown, formData: FormData) {
+export async function addProduct(previousState: unknown, formData: FormData) {
     // console.log(formData)
     const result = addSchema.safeParse(Object.fromEntries(formData.entries()))
     if (result.success === false) {
@@ -54,4 +54,22 @@ export async function addProduct(previousState:unknown, formData: FormData) {
         }
     })
     redirect("/admin/products")
+}
+
+
+export async function toggleProductAvailability(id: string, isAvailableForPurchase: boolean) {
+    await db.product.update({
+        where: { id: id },
+        data: { isAvailableForPurchase: isAvailableForPurchase }
+    })
+}
+
+export async function deleteProduct(id: string) {
+    const product = await db.product.delete({
+        where: { id: id }
+    })
+
+    if(product === null){
+        return notFound()
+    }
 }

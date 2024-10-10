@@ -45,3 +45,4 @@ npx shadcn@latest add label
 npx shadcn@latest add input
 npx shadcn@latest add textarea
 npm i zod: form validation
+npx shadcn@latest add dropdown-menu
