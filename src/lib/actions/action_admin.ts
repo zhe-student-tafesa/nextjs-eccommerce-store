@@ -57,6 +57,60 @@ export async function addProduct(previousState: unknown, formData: FormData) {
 }
 
 
+const editSchema = addSchema.extend({
+    // optional() is function : not optional
+    file: fileSchema.optional(),
+    image: imageSchema.optional(),
+})
+
+export async function updateProduct(id: string, previousState: unknown, formData: FormData) {
+    // console.log(formData)
+    const result = editSchema.safeParse(Object.fromEntries(formData.entries()))
+    if (result.success === false) {
+        return result.error.formErrors.fieldErrors
+    }
+
+    const data = result.data;
+    const product = await db.product.findUnique({ where: { id: id } })
+    if (product == null) return notFound()
+
+    let filePath = product.filePath
+    if (data.file != null && data.file.size > 0) {
+        // has new file, delete old
+        await fs.unlink(product.filePath)
+        // SAVE  file, 
+        await fs.mkdir("products", { recursive: true })
+        filePath = `products/${crypto.randomUUID()}-${data.file.name}`
+        await fs.writeFile(filePath, Buffer.from(await data.file.arrayBuffer()))
+    }
+
+    let imagePath = product.imagePath
+    if (data.image != null && data.image.size > 0) {
+        // has new image, delete old
+        await fs.unlink(`public${product.imagePath}`)
+        // SAVE  image
+        await fs.mkdir("public/products", { recursive: true })
+        imagePath = `/products/${crypto.randomUUID()}-${data.image.name}`
+        await fs.writeFile(`public${imagePath}`, Buffer.from(await data.image.arrayBuffer()))
+    }
+
+    /// update to DB
+    await db.product.update({
+        where: { id: id },
+        data: {
+            isAvailableForPurchase: false,
+            name: data.name,
+            description: data.description,
+            priceInCents: data.priceInCents,
+            filePath,
+            imagePath
+        }
+    })
+    redirect("/admin/products")
+}
+
+
+
 export async function toggleProductAvailability(id: string, isAvailableForPurchase: boolean) {
     await db.product.update({
         where: { id: id },
