@@ -5,6 +5,7 @@ import { describe } from "node:test"
 import { z } from "zod"
 import fs from "fs/promises"
 import { notFound, redirect } from "next/navigation"
+import { revalidatePath } from "next/cache"
 
 const fileSchema = z.instanceof(File, {
     message: 'Required'
@@ -53,6 +54,10 @@ export async function addProduct(previousState: unknown, formData: FormData) {
             imagePath
         }
     })
+    // when add new: ask home page and products page to refresh
+    revalidatePath('/')
+    revalidatePath('/products')
+
     redirect("/admin/products")
 }
 
@@ -105,6 +110,11 @@ export async function updateProduct(id: string, previousState: unknown, formData
             imagePath
         }
     })
+
+    // when update: ask home page and products page to refresh
+    revalidatePath('/')
+    revalidatePath('/products')
+
     redirect("/admin/products")
 }
 
@@ -115,6 +125,10 @@ export async function toggleProductAvailability(id: string, isAvailableForPurcha
         where: { id: id },
         data: { isAvailableForPurchase: isAvailableForPurchase }
     })
+
+    // when edit available: ask home page and products page to refresh
+    revalidatePath('/')
+    revalidatePath('/products')
 }
 
 export async function deleteProduct(id: string) {
@@ -128,4 +142,8 @@ export async function deleteProduct(id: string) {
     // delete file and image
     await fs.unlink(product.filePath)
     await fs.unlink(`public${product.imagePath}`)
+
+    // when delete: ask home page and products page to refresh
+    revalidatePath('/')
+    revalidatePath('/products')
 }
