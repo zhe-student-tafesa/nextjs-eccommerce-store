@@ -32,3 +32,34 @@ const ProductCard = ({ name, priceInCents, description, id, imagePath }: Product
 }
 
 export default ProductCard
+
+
+export function ProductCardSkeleton() {
+  return (
+    <div>
+      <Card className='flex overflow-hidden flex-col animate-pulse'>
+
+        <div className=' w-full  aspect-video bg-gray-300'></div>
+        <CardHeader>
+          <CardTitle>
+            <div className='w-3/4 h-6 rounded-full bg-gray-300'></div>
+          </CardTitle>
+          <CardDescription>
+            <div className='w-1/2 h-4 rounded-full bg-gray-300'></div>
+          </CardDescription>
+        </CardHeader>
+
+        <CardContent className='space-y-2'>
+          <div className='w-full h-4 rounded-full bg-gray-300'></div>
+          <div className='w-full h-4 rounded-full bg-gray-300'></div>
+          <div className='w-3/4 h-4 rounded-full bg-gray-300'></div>
+        </CardContent>
+
+        <CardFooter>
+          <Button className='w-full' disabled size={"lg"} > </Button>
+        </CardFooter>
+        
+      </Card>
+    </div>
+  )
+}

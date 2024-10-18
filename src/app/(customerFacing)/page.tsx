@@ -1,7 +1,8 @@
-import ProductCard from "@/components/productCard/ProductCard";
+import ProductCard, { ProductCardSkeleton } from "@/components/productCard/ProductCard";
 import { Button } from "@/components/ui/button";
 import db from "@/db/db";
 import { ProductGridSectionProps } from "@/types";
+import { Product } from "@prisma/client";
 import { ArrowRight } from "lucide-react";
 // the most popular products
 function getMostPopularProducts() {
@@ -28,6 +29,8 @@ function getNewestProducts() {
 }
 import Image from "next/image";
 import Link from "next/link";
+import { Suspense } from "react";
+import { wait } from "../admin/page";
 
 export default function HomePage() {
   return (
@@ -40,7 +43,7 @@ export default function HomePage() {
 
 
 
-async function ProductGridSection({ productsFetcher, title }: ProductGridSectionProps) {
+function ProductGridSection({ productsFetcher, title }: ProductGridSectionProps) {
   return (
     <div className="space-y-4">
       <div className="flex gap-4">
@@ -55,14 +58,34 @@ async function ProductGridSection({ productsFetcher, title }: ProductGridSection
       </div>
       {/* grid layout*/}
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
-        {(await productsFetcher()).map((product) => (
-          <ProductCard
-            key={product.id}
-            {...product}
-          />
-        ))}
+        <Suspense
+          fallback={
+            <>
+              <ProductCardSkeleton />
+              <ProductCardSkeleton />
+              <ProductCardSkeleton />
+            </>
+          }>
+          <ProductSuspense productsFetcher={productsFetcher} />
+        </Suspense>
+
 
       </div>
     </div>
   );
+}
+
+async function ProductSuspense({
+  productsFetcher }:
+  { productsFetcher: () => Promise<Product[]> }
+) {
+  // For test begin: wait 1S, then call api, so we can see ProductCardSkeleton working
+  await wait(1000)
+  // For test end
+  return (await productsFetcher()).map((product) => (
+    <ProductCard
+      key={product.id}
+      {...product}
+    />
+  ))
 }
