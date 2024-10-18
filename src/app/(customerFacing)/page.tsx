@@ -5,32 +5,42 @@ import { ProductGridSectionProps } from "@/types";
 import { Product } from "@prisma/client";
 import { ArrowRight } from "lucide-react";
 // the most popular products
-function getMostPopularProducts() {
-  return db.product.findMany({
-    orderBy: {
-      orders: { _count: "desc" }
-    },
-    where: { isAvailableForPurchase: true },
-    // show first 6
-    take: 6
-  })
-}
+const getMostPopularProducts = cache(
+  () => {
+    return db.product.findMany({
+      orderBy: {
+        orders: { _count: "desc" }
+      },
+      where: { isAvailableForPurchase: true },
+      // show first 6
+      take: 6
+    })
+  },
+  // keyParts: use route plus function name
+  ["/", "getMostPopularProducts"],
+  {revalidate: 60*60*24}
+)
 
 // the newest products
-function getNewestProducts() {
-  return db.product.findMany({
-    orderBy: {
-      createdAt: "desc"
-    },
-    where: { isAvailableForPurchase: true },
-    // show first 6
-    take: 6
-  })
-}
+const  getNewestProducts = cache(
+  ()=> {
+    return db.product.findMany({
+      orderBy: {
+        createdAt: "desc"
+      },
+      where: { isAvailableForPurchase: true },
+      // show first 6
+      take: 6
+    })
+  },
+  ["/","getNewestProducts"],
+  {revalidate: 60*60*24}
+)
 import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
 import { wait } from "../admin/page";
+import { cache } from "@/lib/cache";
 
 export default function HomePage() {
   return (

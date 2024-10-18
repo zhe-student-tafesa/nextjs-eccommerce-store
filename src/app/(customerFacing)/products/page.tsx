@@ -1,6 +1,7 @@
 import { wait } from "@/app/admin/page";
 import ProductCard, { ProductCardSkeleton } from "@/components/productCard/ProductCard";
 import db from "@/db/db";
+import { cache } from "@/lib/cache";
 import { Product } from "@prisma/client";
 import Image from "next/image";
 import { Suspense } from "react";
@@ -11,7 +12,7 @@ export default function ProductsPage() {
       <Suspense
         fallback={
           <>
-          {/* step 3 */}
+            {/* step 3 */}
             <ProductCardSkeleton />
             <ProductCardSkeleton />
             <ProductCardSkeleton />
@@ -20,7 +21,7 @@ export default function ProductsPage() {
             <ProductCardSkeleton />
           </>
         }>
-          {/* step 4 */}
+        {/* step 4 */}
         <ProductsPageSuspense productsFetcher={getProducts} />
       </Suspense>
 
@@ -49,9 +50,21 @@ async function ProductsPageSuspense({
 }
 
 // step 1
-function getProducts() {
-  return db.product.findMany({
-    where: { isAvailableForPurchase: true },
-    orderBy:{name:"asc"}
-  })
-}
+// function getProducts() {
+//   return db.product.findMany({
+//     where: { isAvailableForPurchase: true },
+//     orderBy:{name:"asc"}
+//   })
+// }
+
+const getProducts = cache(
+  () => {
+    return db.product.findMany({
+      where: { isAvailableForPurchase: true },
+      orderBy: { name: "asc" }
+    })
+  },
+  // keyParts: use route plus function name
+  ["/products", "getProducts"],
+  { revalidate: 60 * 60 * 24 }
+)
