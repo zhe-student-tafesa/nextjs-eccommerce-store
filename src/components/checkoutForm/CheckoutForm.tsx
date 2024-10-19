@@ -10,6 +10,15 @@ import {
 import { loadStripe } from "@stripe/stripe-js";
 import Image from "next/image";
 import { formatCurrency } from "@/lib/formatters";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "../ui/card";
+import { Button } from "../ui/button";
 
 interface CheckoutFormProps {
   product: Product;
@@ -29,7 +38,7 @@ const CheckoutForm = ({ product, clientSecret }: CheckoutFormProps) => {
     <div className="max-w-5xl w-full mx-auto space-y-8">
       <ProductDetailInPurchase product={product} />
       <Elements stripe={stripePromise} options={{ clientSecret }}>
-        <Form />
+        <Form priceInCents={product.priceInCents} />
       </Elements>
     </div>
   );
@@ -37,11 +46,36 @@ const CheckoutForm = ({ product, clientSecret }: CheckoutFormProps) => {
 
 export default CheckoutForm;
 
-function Form() {
+function Form({ priceInCents }: { priceInCents: number }) {
   const stripe = useStripe();
   // elements has all the payment info
   const elements = useElements();
-  return <PaymentElement />;
+  function handleSubmit() {}
+  //  use real form
+  return (
+    <form onSubmit={handleSubmit}>
+      <Card>
+        <CardHeader>
+          <CardTitle></CardTitle>
+          <CardDescription></CardDescription>
+        </CardHeader>
+
+        <CardContent>
+          <PaymentElement />
+        </CardContent>
+
+        <CardFooter>
+          <Button
+            className="w-full"
+            size={"lg"}
+            disabled={stripe == null || elements == null}
+          >
+            Purchase - {formatCurrency(priceInCents / 100)}
+          </Button>
+        </CardFooter>
+      </Card>
+    </form>
+  );
 }
 
 function ProductDetailInPurchase({ product }: { product: Product }) {
