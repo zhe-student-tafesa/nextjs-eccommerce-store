@@ -1,8 +1,9 @@
 "use client";
 import { Product } from "@prisma/client";
-import React from "react";
+import React, { FormEvent, useState } from "react";
 import {
   Elements,
+  LinkAuthenticationElement,
   PaymentElement,
   useElements,
   useStripe,
@@ -19,6 +20,7 @@ import {
   CardTitle,
 } from "../ui/card";
 import { Button } from "../ui/button";
+import { userOrderExists } from "@/lib/actions/action_purchase";
 
 interface CheckoutFormProps {
   product: Product;
@@ -38,7 +40,7 @@ const CheckoutForm = ({ product, clientSecret }: CheckoutFormProps) => {
     <div className="max-w-5xl w-full mx-auto space-y-8">
       <ProductDetailInPurchase product={product} />
       <Elements stripe={stripePromise} options={{ clientSecret }}>
-        <Form priceInCents={product.priceInCents} />
+        <Form priceInCents={product.priceInCents} productId={product.id} />
       </Elements>
     </div>
   );
@@ -46,31 +48,93 @@ const CheckoutForm = ({ product, clientSecret }: CheckoutFormProps) => {
 
 export default CheckoutForm;
 
-function Form({ priceInCents }: { priceInCents: number }) {
+function Form({
+  priceInCents,
+  productId,
+}: {
+  priceInCents: number;
+  productId: string;
+}) {
   const stripe = useStripe();
   // elements has all the payment info
   const elements = useElements();
-  function handleSubmit() {}
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string>();
+  const [email, setEmail] = useState<string>();
+
+  async function handleSubmit(e: FormEvent) {
+    e.preventDefault();
+
+    if (stripe == null || elements == null || email == null) {
+      return;
+    }
+    setIsLoading(true);
+
+    // check for existing order: begin
+    const orderExists = await userOrderExists(email, productId);
+    if (orderExists) {
+      setErrorMessage(
+        "You have already purchased this product. Try downloading it from Orders page"
+      );
+      setIsLoading(false);
+      return;
+    }
+    // check for existing order: end
+
+    //  if ok, redirec to ${process.env.NEXT_PUBLIC_SERVER_URL}/stripe/purchase-success
+    //  if fail go to 'then'
+    stripe
+      .confirmPayment({
+        elements,
+        confirmParams: {
+          return_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/stripe/purchase-success`,
+        },
+      })
+      .then(({ error }) => {
+        // if it is client's mis operate cause the error
+        if (error.type === "card_error" || error.type === "validation_error") {
+          setErrorMessage(error.message as string);
+        } else {
+          // for developer
+          setErrorMessage("An unknown error occurred");
+        }
+      })
+      .finally(() => setIsLoading(false));
+  }
   //  use real form
   return (
     <form onSubmit={handleSubmit}>
       <Card>
         <CardHeader>
-          <CardTitle></CardTitle>
-          <CardDescription></CardDescription>
+          <CardTitle>Checkout</CardTitle>
+          {/* show err msg */}
+          {errorMessage && (
+            <CardDescription className="text-destructive">
+              {errorMessage}
+            </CardDescription>
+          )}
         </CardHeader>
 
         <CardContent>
           <PaymentElement />
+          {/* add user email field */}
+          <div className="mt-4">
+            <LinkAuthenticationElement
+              onChange={(e) => setEmail(e.value.email)}
+            />
+          </div>
         </CardContent>
 
         <CardFooter>
           <Button
             className="w-full"
             size={"lg"}
-            disabled={stripe == null || elements == null}
+            disabled={stripe == null || elements == null || isLoading}
           >
-            Purchase - {formatCurrency(priceInCents / 100)}
+            {isLoading
+              ? "Purchasing..."
+              : `Purchase - ${formatCurrency(priceInCents / 100)}`}
           </Button>
         </CardFooter>
       </Card>
