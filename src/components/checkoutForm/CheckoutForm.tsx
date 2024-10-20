@@ -142,7 +142,7 @@ function Form({
   );
 }
 
-function ProductDetailInPurchase({ product }: { product: Product }) {
+export function ProductDetailInPurchase({ product }: { product: Product }) {
   const { imagePath, name, priceInCents, description } = product;
   return (
     <div className="flex gap-4 items-center">
