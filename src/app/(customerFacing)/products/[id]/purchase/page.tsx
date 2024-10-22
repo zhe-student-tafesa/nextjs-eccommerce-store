@@ -23,10 +23,13 @@ const PurchasePage = async ({ params: { id } }: { params: { id: string } }) => {
     metadata: { productId: product?.id as string },
   });
 
+  // we can see 'paymentIntent.client_secret' as paymentId, 
+  // we will use client_secret in client side
   if (paymentIntent.client_secret == null) {
     throw Error("Stripe failed to create payment intent");
   }
 
+  // Client side use: client_secret
   return (
     <CheckoutForm
       product={product}

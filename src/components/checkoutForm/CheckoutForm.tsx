@@ -32,10 +32,11 @@ const stripePromise = loadStripe(
 );
 
 const CheckoutForm = ({ product, clientSecret }: CheckoutFormProps) => {
-  console.log(product);
-  console.log(clientSecret);
-  //   Elements like context
-  // options : can add CSS
+  // console.log(product);
+  // console.log(clientSecret);
+  //   Elements like context wrapper: client        + server 
+  //   Elements like context wrapper: stripePromise + clientSecret 
+  // in options : can add CSS
   return (
     <div className="max-w-5xl w-full mx-auto space-y-8">
       <ProductDetailInPurchase product={product} />
@@ -117,6 +118,7 @@ function Form({
         </CardHeader>
 
         <CardContent>
+          {/* here show the REAL payment UI: bank card ... */}
           <PaymentElement />
           {/* add user email field */}
           <div className="mt-4">
