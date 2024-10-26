@@ -37,7 +37,8 @@ const PurchaseSuccessPage = async ({
         {isSuccess ? "Success!" : "Error!"}
       </h1>
       <ProductDetailInPurchase product={product} />
-      <Button className="mt-4" size={"lg"}>
+      <Button className="mt-4" size={"lg"} asChild>
+        {/* send a link: valid for 14 days, user can download file */}
         {isSuccess ? (
           <a>Download</a>
         ) : (
