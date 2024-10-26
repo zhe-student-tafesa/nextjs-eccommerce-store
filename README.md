@@ -47,3 +47,10 @@ npx shadcn@latest add textarea
 npm i zod: form validation
 npx shadcn@latest add dropdown-menu
 npm i @stripe/react-stripe-js
+
+## wait for a web hook from Stripe
+## then create a customer and an order.
+## Your pairing code is: eases-agile-redeem-proven
+## The Stripe CLI is configured for your account with account id acct_1P8IW3RuHai09Ek9
+## C:\diploma\software>stripe listen --forward-to  localhost:3000/webhooks/stripe
+> Ready! You are using Stripe API Version [2024-04-10]. Your webhook signing secret is in env.STRIPE_WEBHOOK_SECRET
