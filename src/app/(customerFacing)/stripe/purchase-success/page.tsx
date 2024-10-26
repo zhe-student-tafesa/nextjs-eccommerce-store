@@ -40,7 +40,13 @@ const PurchaseSuccessPage = async ({
       <Button className="mt-4" size={"lg"} asChild>
         {/* send a link: valid for 14 days, user can download file */}
         {isSuccess ? (
-          <a>Download</a>
+          <a
+            href={`/products/download/${await createDownloadVerification(
+              product.id
+            )}`}
+          >
+            Download
+          </a>
         ) : (
           <Link href={`/products/${product.id}/purchase`}>Try Again</Link>
         )}
@@ -50,3 +56,16 @@ const PurchaseSuccessPage = async ({
 };
 
 export default PurchaseSuccessPage;
+
+// create downloadVerification
+// return its' id
+async function createDownloadVerification(prodcutId: string) {
+  return (
+    await db.downloadVerification.create({
+      data: {
+        productId: prodcutId,
+        expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 14),
+      },
+    })
+  ).id;
+}
