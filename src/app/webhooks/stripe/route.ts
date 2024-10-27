@@ -1,3 +1,6 @@
+// THIRD time to ensure stripe purchase success: use webhook
+// THIRD time to ensure stripe purchase success: use webhook
+// THIRD time to ensure stripe purchase success: use webhook
 // ## wait for a web hook from Stripe
 // ## then create a customer and an order.
 

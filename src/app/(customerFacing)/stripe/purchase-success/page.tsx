@@ -17,6 +17,8 @@ const PurchaseSuccessPage = async ({
     payment_intent: string;
   };
 }) => {
+  // SECOND time to ensure stripe purchase success
+  // SECOND time to ensure stripe purchase success
   const paymentIntent = await stripe.paymentIntents.retrieve(
     searchParams.payment_intent
   );
