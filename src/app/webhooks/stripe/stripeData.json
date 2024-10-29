@@ -1,0 +1,124 @@
+{
+    "id": "evt_3QFBlLRuHai09Ek91GSdSQi4",
+    "object": "event",
+    "api_version": "2024-04-10",
+    "created": 1730194689,
+    "data": {
+        "object": {
+            "id": "ch_3QFBlLRuHai09Ek912LX5dl6",
+            "object": "charge",
+            "amount": 20000,
+            "amount_captured": 20000,
+            "amount_refunded": 0,
+            "application": null,
+            "application_fee": null,
+            "application_fee_amount": null,
+            "balance_transaction": "txn_3QFBlLRuHai09Ek91wsuvI60",
+            "billing_details": {
+                "address": {
+                    "city": null,
+                    "country": "AU",
+                    "line1": null,
+                    "line2": null,
+                    "postal_code": null,
+                    "state": null
+                },
+                "email": "frank.zhang.sa.au@gmail.com",
+                "name": null,
+                "phone": null
+            },
+            "calculated_statement_descriptor": "Stripe",
+            "captured": true,
+            "created": 1730194689,
+            "currency": "aud",
+            "customer": null,
+            "description": null,
+            "destination": null,
+            "dispute": null,
+            "disputed": false,
+            "failure_balance_transaction": null,
+            "failure_code": null,
+            "failure_message": null,
+            "fraud_details": {},
+            "invoice": null,
+            "livemode": false,
+            "metadata": {
+                "productId": "60aa1632-4a76-4ce5-bcf3-58e72243931b"
+            },
+            "on_behalf_of": null,
+            "order": null,
+            "outcome": {
+                "network_status": "approved_by_network",
+                "reason": null,
+                "risk_level": "normal",
+                "risk_score": 52,
+                "seller_message": "Payment complete.",
+                "type": "authorized"
+            },
+            "paid": true,
+            "payment_intent": "pi_3QFBlLRuHai09Ek91ozy8QDf",
+            "payment_method": "pm_1QFBsLRuHai09Ek9OE6I0hL6",
+            "payment_method_details": {
+                "card": {
+                    "amount_authorized": 20000,
+                    "authorization_code": null,
+                    "brand": "visa",
+                    "checks": {
+                        "address_line1_check": null,
+                        "address_postal_code_check": null,
+                        "cvc_check": "pass"
+                    },
+                    "country": "US",
+                    "exp_month": 4,
+                    "exp_year": 2025,
+                    "extended_authorization": {
+                        "status": "disabled"
+                    },
+                    "fingerprint": "2rBqqTVZtowTmrEi",
+                    "funding": "credit",
+                    "incremental_authorization": {
+                        "status": "unavailable"
+                    },
+                    "installments": null,
+                    "last4": "4242",
+                    "mandate": null,
+                    "multicapture": {
+                        "status": "unavailable"
+                    },
+                    "network": "visa",
+                    "network_token": {
+                        "used": false
+                    },
+                    "overcapture": {
+                        "maximum_amount_capturable": 20000,
+                        "status": "unavailable"
+                    },
+                    "three_d_secure": null,
+                    "wallet": null
+                },
+                "type": "card"
+            },
+            "radar_options": {},
+            "receipt_email": null,
+            "receipt_number": null,
+            "receipt_url": "https://pay.stripe.com/receipts/payment/CAcaFwoVYWNjdF8xUDhJVzNSdUhhaTA5RWs5KILagrkGMgYSCHuIv9k6LBb19CdzVAgRLgWnkoMpYNlTTIXlYrj41hKhNQT1Of-aLRVwR4faVMCiL8yB",
+            "refunded": false,
+            "review": null,
+            "shipping": null,
+            "source": null,
+            "source_transfer": null,
+            "statement_descriptor": null,
+            "statement_descriptor_suffix": null,
+            "status": "succeeded",
+            "transfer_data": null,
+            "transfer_group": null
+        }
+    },
+    "livemode": false,
+    "pending_webhooks": 2,
+    "request": {
+        "id": "req_dUcohdaO2LTovj",
+        "idempotency_key": "99f8955b-c3f0-49bd-941a-4c771dd57cbe"
+    },
+    "type": "charge.succeeded"
+}
