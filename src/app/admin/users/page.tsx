@@ -1,7 +1,6 @@
-import ActiveToggleDropdownItem from '@/components/activeToggleDropdownItem/ActiveToggleDropdownItem';
 import AdminPageHeader from '@/components/adminPageHeader/AdminPageHeader';
-import DeleteDropdownItem from '@/components/deleteDropdownItem/deleteDropdownItem';
 import DeleteDropdownUserItem from '@/components/deleteDropdownUserItem/DeleteDropdownUserItem';
+
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import db from '@/db/db';
 import { formatCurrency, formatNumber } from '@/lib/formatters';
