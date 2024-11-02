@@ -60,3 +60,6 @@ npm i @stripe/react-stripe-js
 # in new terminal run: npm run email
 # Unix: cp .env ./node_modules/react-email && email dev --dir src/email --port 3001
 # Windows: copy .env .\\node_modules\\react-email\\ && email dev --dir src/email --port 3001
+
+# card: 4242 4242 4242 4242
+# email: frank.zhang.sa.au@gmail.com
