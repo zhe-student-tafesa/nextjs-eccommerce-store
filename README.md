@@ -54,3 +54,18 @@ npm i @stripe/react-stripe-js
 ## The Stripe CLI is configured for your account with account id acct_1P8IW3RuHai09Ek9
 ## C:\diploma\software>stripe listen --forward-to  localhost:3000/webhooks/stripe
 > Ready! You are using Stripe API Version [2024-04-10]. Your webhook signing secret is in env.STRIPE_WEBHOOK_SECRET
+
+# add scripts in package.json
+# so we can start up a server that allows us to view our emails, 3001, And copy .env to ./node_modules/react-email
+# in new terminal run: npm run email
+# Unix: cp .env ./node_modules/react-email && email dev --dir src/email --port 3001
+# Windows: copy .env .\\node_modules\\react-email\\ && email dev --dir src/email --port 3001
+
+# card: 4242 4242 4242 4242
+# email: frank.zhang.sa.au@gmail.com
+
+https://github.com/stripe/stripe-cli/releases/tag/v1.21.11
+STRIPE CLI:
+1. cmd, stripe.exe
+2. stripe login
+3.  stripe listen --forward-to localhost:3000/webhooks/stripe

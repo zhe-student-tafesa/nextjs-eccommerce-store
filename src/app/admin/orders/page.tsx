@@ -1,24 +1,35 @@
-import AdminPageHeader from '@/components/adminPageHeader/AdminPageHeader';
-import DeleteDropdownOrderItem from '@/components/deleteDropdownOrderItem/DeleteDropdownOrderItem';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import db from '@/db/db';
-import { formatCurrency, formatNumber } from '@/lib/formatters';
-import { MoreVertical } from 'lucide-react';
-import React from 'react'
+import AdminPageHeader from "@/components/adminPageHeader/AdminPageHeader";
+import DeleteDropdownOrderItem from "@/components/deleteDropdownOrderItem/DeleteDropdownOrderItem";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import db from "@/db/db";
+import { formatCurrency, formatNumber } from "@/lib/formatters";
+import { MoreVertical } from "lucide-react";
+import React from "react";
 
 const OrdersPage = () => {
-  return (<>
-    <div className="flex justify-between items-center gap-4">
-      <AdminPageHeader>
-        Sales
-      </AdminPageHeader>
-    </div>
-    <OrdersTable />
-  </>);
-}
+  return (
+    <>
+      <div className="flex justify-between items-center gap-4">
+        <AdminPageHeader>Sales</AdminPageHeader>
+      </div>
+      <OrdersTable />
+    </>
+  );
+};
 
-export default OrdersPage
+export default OrdersPage;
 
 async function OrdersTable() {
   const orders = await db.order.findMany({
@@ -26,13 +37,13 @@ async function OrdersTable() {
       id: true,
       pricePaidInCents: true,
       product: { select: { name: true } },
-      user: { select: { email: true } }
+      user: { select: { email: true } },
     },
-    orderBy: { createdAt: "desc" }
-  })
+    orderBy: { createdAt: "desc" },
+  });
 
   if (orders.length === 0) {
-    return <p>No rrders found</p>
+    return <p>No orders found</p>;
   }
 
   return (
@@ -50,15 +61,15 @@ async function OrdersTable() {
       <TableBody>
         {orders.map((order) => (
           <TableRow key={order.id}>
-            <TableCell>
-              {order.product.name}
-            </TableCell>
+            <TableCell>{order.product.name}</TableCell>
 
             <TableCell>{order.user.email}</TableCell>
 
-            <TableCell>{formatCurrency(order.pricePaidInCents / 100)}</TableCell>
+            <TableCell>
+              {formatCurrency(order.pricePaidInCents / 100)}
+            </TableCell>
 
-            <TableCell className='text-center'>
+            <TableCell className="text-center">
               <DropdownMenu>
                 <DropdownMenuTrigger>
                   <MoreVertical />
@@ -74,5 +85,5 @@ async function OrdersTable() {
         ))}
       </TableBody>
     </Table>
-  )
+  );
 }
