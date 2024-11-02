@@ -63,3 +63,9 @@ npm i @stripe/react-stripe-js
 
 # card: 4242 4242 4242 4242
 # email: frank.zhang.sa.au@gmail.com
+
+https://github.com/stripe/stripe-cli/releases/tag/v1.21.11
+STRIPE CLI:
+1. cmd, stripe.exe
+2. stripe login
+3.  stripe listen --forward-to localhost:3000/webhooks/stripe
