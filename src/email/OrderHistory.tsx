@@ -37,20 +37,18 @@ OrderHistoryEmail.PreviewProps = {
       product: {
         name: "Product name",
         description: "Some description",
-        imagePath:
-          "/products/5aba7442-e4a5-4d2e-bfa7-5bd358cdad64-02 - What Is Next.js.jpg",
+        imagePath: "/products/a75620d5-70e8-4000-bc44-b95f8fec5a45-coffee.jpg",
       },
     },
     {
       id: crypto.randomUUID(),
       createdAt: new Date(),
-      pricePaidInCents: 2000,
+      pricePaidInCents: 22222,
       downloadVerificationId: crypto.randomUUID(),
       product: {
         name: "Product name 2",
         description: "Some other desc",
-        imagePath:
-          "/products/db3035a5-e762-41b0-996f-d54ec730bc9c-01 - Course Introduction.jpg",
+        imagePath: "/products/a75620d5-70e8-4000-bc44-b95f8fec5a45-coffee.jpg",
       },
     },
   ],
@@ -74,6 +72,7 @@ export default function OrderHistoryEmail({ orders }: OrderHistoryEmailProps) {
                   product={order.product}
                   downloadVerificationId={order.downloadVerificationId}
                 />
+                {/* Put a line between each of our elements */}
                 {index < orders.length - 1 && <Hr />}
               </React.Fragment>
             ))}
