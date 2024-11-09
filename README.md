@@ -1,3 +1,27 @@
+Ecommerce site from an admin dashboard, to payment processing, to account management, and so much more. 
+Use Next.js, Stripe, Tailwind, Prisma, and TypeScript.
+
+![1-tech](https://github.com/user-attachments/assets/17bef1b3-9ee3-462f-979f-6fbd7696f405)
+
+![2-authentication](https://github.com/user-attachments/assets/572155fe-8326-4307-b549-28925b9e45b9)
+
+![3-product-CRUD](https://github.com/user-attachments/assets/202f7055-a721-4622-b5ec-890b2a4a281a)
+
+![4-admin-add-product](https://github.com/user-attachments/assets/7acecf51-97ee-49e6-83c0-687831c8e891)
+
+![5-customer-view-products](https://github.com/user-attachments/assets/415e88f6-e9bb-49a8-9e68-8d19cff5866b)
+
+![6-Stripe-purchase](https://github.com/user-attachments/assets/39e49152-791f-4c8b-88bd-591c1510750d)
+
+![7-Stripe-cli-webhook](https://github.com/user-attachments/assets/9b6f243f-ba88-4c1f-aec4-13660717b8f2)
+
+![8-Stripe-dashboard](https://github.com/user-attachments/assets/b7e8cede-a763-4fcb-9e31-2c96afc7afe7)
+
+![09-after-success-auto-send-receipt](https://github.com/user-attachments/assets/ffe1b258-afc8-4662-8cbd-1783e7ba1505)
+
+![9-after-success-auto-update-users-and-orders-database](https://github.com/user-attachments/assets/99ba304d-bc60-4138-bfef-c0d4cb1988f7)
+
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
